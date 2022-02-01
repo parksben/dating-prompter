@@ -1,0 +1,16 @@
+.nice-button {
+  font-size: var(--btn-text-size, 6vw);
+  line-height: 1.5;
+  padding: 2vw 4vw;
+  min-width: 40vw;
+  max-width: 80vw;
+  margin: 0 auto;
+  text-align: center;
+  color: var(--btn-text-color, #fff);
+  background-color: var(--primary-color, #fa9898);
+  border-radius: 5px;
+
+  &:active {
+    opacity: 0.8;
+  }
+}

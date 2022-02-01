@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import PageWrapper from './components/PageWrapper';
+import Button from './components/Button';
+import SvgCoupleBegin from './svg/couple-begin.svg';
+import './App.scss';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <PageWrapper className="homepage">
+        <div className="content">
+          <div className="title">
+            相亲<span>猫</span> &amp; 相亲<span>狗</span>
+          </div>
+          <div className="description">恋爱话题神器</div>
+          <Button className="btn-play">开启约会</Button>
+        </div>
+        <div
+          className="bg-couple"
+          style={{ backgroundImage: `url(${SvgCoupleBegin})` }}
+        />
+      </PageWrapper>
     </div>
   );
 }
