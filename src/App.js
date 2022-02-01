@@ -6,7 +6,7 @@ import './App.scss';
 function App() {
   return (
     <div className="App">
-      <PageWrapper className="homepage">
+      <PageWrapper className="welcome">
         <div className="content">
           <div className="title">
             相亲<span>猫</span> &amp; 相亲<span>狗</span>
