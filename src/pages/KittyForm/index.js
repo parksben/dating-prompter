@@ -5,7 +5,7 @@ import './index.scss';
 
 export default function KittyForm({ onSubmit = () => {} }) {
   return (
-    <PageLayout className="puppy-form">
+    <PageLayout className="kitty-form">
       <div className="content">
         <div className="title">喵小姐</div>
         <Profile

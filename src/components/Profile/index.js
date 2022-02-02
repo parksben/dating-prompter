@@ -54,7 +54,7 @@ export default function Profile({ onSubmit = () => {} }) {
       {/* 输入昵称 */}
       <div className="form-item">
         <span className="label">
-          {nickname && <span className="icon-done" />}昵称
+          {nickname && <span className="icon-done" />}昵称：
         </span>
         <span className="value">
           <input
@@ -71,7 +71,7 @@ export default function Profile({ onSubmit = () => {} }) {
       <div className="form-item multiline">
         <span className="label">
           {topicMyself.length > 0 && <span className="icon-done" />}
-          {'想跟 TA 分享什么话题 (多选)'}
+          {'想跟 TA 分享什么话题 (多选)：'}
         </span>
         <span className="options">
           <TopicTypeSelect value={topicMyself} onSelect={setTopicMyself} />
@@ -82,7 +82,7 @@ export default function Profile({ onSubmit = () => {} }) {
       <div className="form-item multiline">
         <span className="label">
           {topicEachOther.length > 0 && <span className="icon-done" />}
-          {'想了解 TA 的哪些方面 (多选)'}
+          {'想了解 TA 的哪些方面 (多选)：'}
         </span>
         <span className="options">
           <TopicTypeSelect
@@ -94,12 +94,12 @@ export default function Profile({ onSubmit = () => {} }) {
 
       {/* 提交按钮 */}
       <div className="submit">
-        {errorTip && <div className="error-tip">{errorTip}</div>}
         <Button
           onClick={handleSubmit}
           disabled={!nickname || !topicEachOther.length || !topicMyself.length}>
           完成并继续
         </Button>
+        {errorTip && <div className="error-tip">{errorTip}</div>}
       </div>
     </div>
   );

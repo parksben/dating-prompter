@@ -9,7 +9,7 @@
     margin-top: 3vw;
 
     .label {
-      flex: 0 0 4em;
+      flex: 0 0 6em;
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -66,7 +66,7 @@
       font-size: 4vw;
       color: var(--primary-color);
       text-align: center;
-      margin-bottom: 4vw;
+      margin-top: 4vw;
 
       &::before {
         content: "Tips: ";
