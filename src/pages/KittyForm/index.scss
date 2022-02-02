@@ -1,0 +1,29 @@
+.puppy-form {
+  .page-inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+
+    &::before {
+      content: "";
+      width: 100%;
+      height: 64vw;
+      background-position: center bottom;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-image: url("/svg/kitty.svg");
+    }
+
+    .content {
+      flex: 1 1 auto;
+
+      .title {
+        font-size: 8vw;
+        margin-top: 4vw;
+        text-align: center;
+        color: var(--primary-color);
+      }
+    }
+  }
+}

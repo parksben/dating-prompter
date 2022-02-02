@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import classnames from 'classnames';
 import './index.scss';
 
-export default function PageWrapper({
+export default function PageLayout({
   className = '',
   children,
   style = {},

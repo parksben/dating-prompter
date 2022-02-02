@@ -1,11 +1,15 @@
 :root {
   // 主题色
   --primary-color: #fa9898;
+  --primary-color-alpha: rgba(250, 152, 152, 0.1);
   --normal-text-color: #000;
   --btn-text-color: #fff;
+  --placeholder-color: #999;
+  --normal-border-color: #ddd;
 
   // 主题字号
   --normal-text-size: 4vw;
+  --small-text-size: 3vw;
   --btn-text-size: 6vw;
 }
 

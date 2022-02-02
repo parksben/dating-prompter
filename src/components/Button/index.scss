@@ -1,16 +1,40 @@
 .nice-button {
-  font-size: var(--btn-text-size, 6vw);
-  line-height: 1.5;
-  padding: 2vw 4vw;
-  min-width: 40vw;
-  max-width: 80vw;
   margin: 0 auto;
   text-align: center;
   color: var(--btn-text-color, #fff);
   background-color: var(--primary-color, #fa9898);
   border-radius: 5px;
 
+  &.large {
+    font-size: var(--btn-text-size, 6vw);
+    padding: 2vw 4vw;
+    min-width: 60vw;
+    max-width: 80vw;
+  }
+
+  &.medium {
+    font-size: var(--normal-text-size, 4vw);
+    padding: 2vw;
+    min-width: 32vw;
+    max-width: 54vw;
+  }
+
+  &.small {
+    font-size: var(--small-text-size, 3vw);
+    padding: 1vw;
+    min-width: 18vw;
+    max-width: 32vw;
+  }
+
   &:active {
     opacity: 0.8;
+  }
+
+  &.disabled {
+    opacity: 0.3;
+
+    &:active {
+      opacity: 0.15;
+    }
   }
 }

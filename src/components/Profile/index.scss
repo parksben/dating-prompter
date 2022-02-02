@@ -1,0 +1,112 @@
+.profile-form {
+  font-size: 5vw;
+  padding: 0 4vw;
+
+  .form-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 3vw;
+
+    .label {
+      flex: 0 0 4em;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .icon-done {
+        display: inline-flex;
+        width: 1em;
+        height: 1em;
+        background: url("/svg/done.svg") no-repeat center/contain;
+        margin-right: 2vw;
+      }
+    }
+
+    .value {
+      flex: 1 1 auto;
+
+      &.empty {
+        color: var(--placeholder-color);
+      }
+
+      input {
+        width: 100%;
+        font-size: 5vw;
+        line-height: 1.5;
+        border: none;
+        outline: none;
+
+        &::placeholder {
+          color: var(--placeholder-color);
+        }
+
+        &:focus {
+          border-bottom: 1px solid var(--normal-text-color);
+          margin-bottom: -1px;
+        }
+      }
+    }
+
+    &.multiline {
+      display: block;
+      margin-top: 3vw;
+
+      .label {
+        width: 100%;
+        margin-bottom: 1.5vw;
+      }
+    }
+  }
+
+  .submit {
+    margin-top: 8vw;
+
+    .error-tip {
+      font-size: 4vw;
+      color: var(--primary-color);
+      text-align: center;
+      margin-bottom: 4vw;
+
+      &::before {
+        content: "Tips: ";
+      }
+    }
+  }
+}
+
+.topic-type-select {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0 -1.5vw;
+
+  .option {
+    flex: 1 1 calc((100% - 9vw) / 3);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 1.5vw;
+    padding: 2vw;
+    font-size: 3.2vw;
+    color: var(--placeholder-color);
+    border: 1px solid var(--normal-border-color);
+    border-radius: 5px;
+
+    &.selected {
+      color: var(--primary-color);
+      border-color: var(--primary-color);
+      background-color: var(--primary-color-alpha);
+      font-weight: bolder;
+    }
+
+    .icon {
+      width: 1.5em;
+      height: 1.5em;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      margin-right: 0.5em;
+    }
+  }
+}
