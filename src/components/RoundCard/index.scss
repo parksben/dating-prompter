@@ -1,0 +1,82 @@
+.round-card {
+  .title {
+    font-size: 18vw;
+    line-height: 1.5;
+    font-weight: bolder;
+    text-align: center;
+  }
+
+  .tip {
+    text-align: center;
+    color: var(--placeholder-color);
+    animation: tipFlash 2s linear infinite;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 40vw;
+    height: 60vw;
+    background: url("/svg/puppy-paw.svg") no-repeat right top/contain;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40vw;
+    height: 60vw;
+    background: url("/svg/kitty-paw.svg") no-repeat left bottom/contain;
+  }
+
+  &.round-2 {
+    &::before {
+      left: 0;
+      top: 0;
+      right: initial;
+      bottom: initial;
+      background: url("/svg/puppy-paw-2.svg") no-repeat left top/contain;
+    }
+
+    &::after {
+      right: 0;
+      bottom: 0;
+      left: initial;
+      top: initial;
+      background: url("/svg/kitty-paw-2.svg") no-repeat right bottom/contain;
+    }
+  }
+
+  &.round-3 {
+    &::before {
+      right: 0;
+      top: 0;
+      left: initial;
+      bottom: initial;
+      background: url("/svg/puppy-paw-3.svg") no-repeat right top/contain;
+    }
+
+    &::after {
+      left: 0;
+      bottom: 0;
+      right: initial;
+      top: initial;
+      background: url("/svg/kitty-paw-3.svg") no-repeat left bottom/contain;
+    }
+  }
+}
+
+@keyframes tipFlash {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}

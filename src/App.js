@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import Welcome from './pages/Welcome';
 import PuppyForm from './pages/PuppyForm';
 import KittyForm from './pages/KittyForm';
+import RoundOne from './pages/RoundOne';
+import RoundTwo from './pages/RoundTwo';
+import RoundThree from './pages/RoundThree';
 import Conditional from './components/Conditional';
 import Storage from './utils/Storage';
 
@@ -36,7 +39,36 @@ function App() {
         <KittyForm
           onSubmit={(fields) => {
             // 保存数据
-            Storage.set('kittyProfile', fields);
+            Storage.set('kittyProfile', fields).then(() => {
+              setCurrentPage('round-one');
+            });
+          }}
+        />
+      </Conditional>
+
+      {/* Round One */}
+      <Conditional visible={currentPage === 'round-one'}>
+        <RoundOne
+          onClick={() => {
+            setCurrentPage('round-two');
+          }}
+        />
+      </Conditional>
+
+      {/* Round Two */}
+      <Conditional visible={currentPage === 'round-two'}>
+        <RoundTwo
+          onClick={() => {
+            setCurrentPage('round-three');
+          }}
+        />
+      </Conditional>
+
+      {/* Round Three */}
+      <Conditional visible={currentPage === 'round-three'}>
+        <RoundThree
+          onClick={() => {
+            console.log('开始第三轮话题');
           }}
         />
       </Conditional>
