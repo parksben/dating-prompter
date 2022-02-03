@@ -27,10 +27,13 @@ export default function Timer({
           return;
         }
 
-        container.current.querySelector('.clock').dataset.tick = tick;
-        container.current.querySelector('.clock').innerText = formatClock(tick);
         container.current.querySelector('.progress').style.width =
           Math.round((10000 * tick) / duration) / 100 + '%';
+
+        container.current.querySelector('.clock').dataset.tick = tick;
+        container.current.querySelector('.clock').innerText = formatClock(
+          Math.max(0, duration - tick)
+        );
       }, 1000);
     }
 
@@ -44,7 +47,7 @@ export default function Timer({
       className="timer"
       style={{ fontFamily: 'Helvetica Neue' }}
       ref={container}>
-      <span className="clock">00 : 00 : 00</span>
+      <span className="clock">{formatClock(duration)}</span>
       <span className="progress" />
     </div>
   );

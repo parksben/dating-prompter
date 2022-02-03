@@ -85,15 +85,11 @@ export default function App() {
       {/* 第一轮话题 */}
       <Conditional visible={currentPage === 'process-one'}>
         <ProcessOne
-          onNext={(duration) => {
-            Storage.set('roundOneDuration', duration).then(() => {
-              // 跳转到第二轮话题起始页
-              setCurrentPage('round-two');
+          onFinish={(duration, history) => {
+            Storage.set('roundOne', { duration, history }).then(() => {
+              // 跳转到小结页面
+              // setCurrentPage('summary-one');
             });
-          }}
-          onFinish={() => {
-            // 跳转到结果页
-            // setCurrentPage('report');
           }}
         />
       </Conditional>

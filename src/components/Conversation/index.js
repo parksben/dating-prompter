@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import classnames from 'classnames';
 import Button from '../Button';
 import Timer from '../Timer';
@@ -9,11 +9,12 @@ export default function Conversation({
   level = 1,
   types = ALL_TYPES,
   duration = 15 * 60 * 1000,
-  onNext = () => {},
   onFinish = () => {},
 }) {
+  const container = useRef(null);
+
   // 题库
-  const [questionList, setQuestionList] = useState([]);
+  const questionList = useRef([]);
 
   // 卡片样式
   const [currentStyle, setCurrentStyle] = useState(true);
@@ -21,22 +22,55 @@ export default function Conversation({
   // 当前问题
   const [question, setQuestion] = useState(null);
 
-  // 已经抽过的题
-  const questionHistory = useRef([]);
-
   // 计时是否暂停
   const [isPaused, setIsPaused] = useState(true);
 
-  // 本轮话题开始时间
-  const begin = useRef(performance.now());
+  // 记录讨论过的话题，即哪些话题使用了时间
+  const history = useRef([]);
+
+  // 更新话题历史
+  useEffect(() => {
+    if (isPaused) return;
+
+    if (!history.current.some((x) => x.content === question.content)) {
+      history.current.push(question);
+    }
+  }, [isPaused, question]);
+
+  // 从题库中随机抽一道题
+  const randomItem = useCallback((list) => {
+    if (!list.length) return null;
+
+    const randomIdx = Math.round((list.length - 1) * Math.random());
+    const item = list[randomIdx];
+
+    return item;
+  }, []);
+
+  // 显示题库见底的文本提示
+  const [errorTip, setErrorTip] = useState('');
+  const timer = useRef(null);
+  const showTip = useCallback((msg) => {
+    setErrorTip(msg);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      setErrorTip('');
+    }, 1.5e3);
+  }, []);
 
   // 加载题库
   useEffect(() => {
     fetchQuestion(level, types).then((list) => {
-      setQuestionList(list);
-      setQuestion(randomItem(list, questionHistory));
+      questionList.current.push(...list);
+
+      const item = randomItem(questionList.current);
+      setQuestion(item);
+
+      questionList.current = questionList.current.filter(
+        (x) => x.content !== item.content
+      );
     });
-  }, [level, types]);
+  }, [level, randomItem, types]);
 
   return (
     <div
@@ -44,11 +78,13 @@ export default function Conversation({
         'conversation',
         currentStyle ? 'style-one' : 'style-two',
         `level-${level}`
-      )}>
+      )}
+      ref={container}>
       <Timer
         paused={isPaused}
         onFinish={() => {
-          onNext(duration);
+          setIsPaused(true);
+          onFinish(duration, history.current);
         }}
       />
 
@@ -72,11 +108,22 @@ export default function Conversation({
         <Button
           className="change-question"
           onClick={() => {
+            if (!questionList.current.length) {
+              showTip('被掏空了 T_T');
+              return;
+            }
+
             setIsPaused(true);
-            setQuestion(randomItem(questionList, questionHistory));
             setCurrentStyle((prev) => !prev);
+
+            const item = randomItem(questionList.current);
+            setQuestion(item);
+
+            questionList.current = questionList.current.filter(
+              (x) => x.content !== item.content
+            );
           }}>
-          换个话题
+          {errorTip || '换个话题'}
         </Button>
       </div>
 
@@ -84,25 +131,16 @@ export default function Conversation({
         className="finish-round"
         size="small"
         onClick={() => {
-          onNext(performance.now() - begin.current);
+          setIsPaused(true);
+          onFinish(
+            Number(
+              container.current.querySelector('.timer .clock').dataset.tick
+            ) || 0,
+            history.current
+          );
         }}>
         不聊了，结束此轮话题
       </div>
     </div>
   );
-}
-
-// 从题库中随机抽一道题
-function randomItem(list = [], history) {
-  if (!history) return null;
-
-  const randomIdx = Math.round((list.length - 1) * Math.random());
-  const item = list[randomIdx];
-
-  if (!history.current.some((x) => x.content === item.content)) {
-    history.current.push(item);
-    return item;
-  }
-
-  return randomItem(list, history);
 }
