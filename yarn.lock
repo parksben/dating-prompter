@@ -3210,6 +3210,11 @@ cssstyle@^2.3.0:
   dependencies:
     cssom "~0.3.6"
 
+csvjson-csv2json@^5.0.6:
+  version "5.0.6"
+  resolved "https://registry.npmmirror.com/csvjson-csv2json/-/csvjson-csv2json-5.0.6.tgz#b056f77dd3c13a2f550ada1c31f05072aad6ff3a"
+  integrity sha512-to9QlVI4yQFPzSqi6XZ97lULKs5m3K8hlE/UkbvKSw81FfDwgV9MUtSbHFJ4SRT4IA7UPkuW2EqsH/MWN5YRow==
+
 damerau-levenshtein@^1.0.7:
   version "1.0.8"
   resolved "https://registry.npmmirror.com/damerau-levenshtein/-/damerau-levenshtein-1.0.8.tgz#b43d286ccbd36bc5b2f7ed41caf2d0aba1f8a6e7"

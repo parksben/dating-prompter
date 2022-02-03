@@ -8,7 +8,7 @@ import RoundThree from './pages/RoundThree';
 import Conditional from './components/Conditional';
 import Storage from './utils/Storage';
 
-function App() {
+export default function App() {
   const [currentPage, setCurrentPage] = useState('welcome');
 
   return (
@@ -80,5 +80,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
