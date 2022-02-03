@@ -1,0 +1,61 @@
+.report {
+  .description {
+    margin: 0 0 8vw;
+    font-size: 5vw;
+    line-height: 2;
+    text-align: center;
+
+    span,
+    .name {
+      font-size: 8vw;
+      line-height: 10vw;
+      color: var(--primary-color);
+    }
+
+    .name {
+      margin-bottom: 6vw;
+    }
+  }
+
+  .statistics {
+    margin: 8vw;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    flex-wrap: wrap;
+
+    .stat-item {
+      flex: 1 1 calc(100% / 3);
+      margin-top: 4vw;
+
+      .icon {
+        width: 10vw;
+        height: 10vw;
+        margin: 0 auto 2vw;
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+
+      .text {
+        font-size: 3vw;
+        text-align: center;
+
+        span {
+          font-weight: bolder;
+        }
+      }
+
+      &.large {
+        .icon {
+          width: 20vw;
+          height: 20vw;
+        }
+      }
+    }
+  }
+
+  .btn-share {
+    margin-top: 16vw;
+  }
+}

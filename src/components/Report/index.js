@@ -1,5 +1,7 @@
 import React from 'react';
+import classnames from 'classnames';
 import { TOPIC_TYPES } from '../Profile';
+import Button from '../Button';
 import './index.scss';
 
 const ICON_MAP = TOPIC_TYPES.reduce((acc, cur) => {
@@ -35,20 +37,25 @@ const DEFAULT_STATISTICS = [
 ];
 
 export default function Report({
+  nicknames = ['汪先生', '喵小姐'],
   duration = 45 * 60 * 1000,
   typeStats = DEFAULT_STATISTICS,
 }) {
   return (
     <div className="report">
       <div className="description">
-        今天的约会持续了 {Math.ceil(duration / (60 * 1000))} 分钟
-        <br />
-        我们彼此分享了这些话题
+        <div className="name">{nicknames.join(' & ')}</div>
+        <div>
+          今天共约会 <span>{Math.ceil(duration / (60 * 1000))}</span> 分钟
+        </div>
+        <div>深入交流了这些话题</div>
       </div>
 
       <div className="statistics">
-        {sortTypes(typeStats).map(({ type, total }) => (
-          <div className="stat-item" key={`stat-item-${type}`}>
+        {sortTypes(typeStats).map(({ type, total }, i) => (
+          <div
+            className={classnames('stat-item', { large: i % 2 === 1 })}
+            key={`stat-item-${type}`}>
             <div
               className="icon"
               style={{ backgroundImage: `url("${ICON_MAP[type]}")` }}
@@ -56,11 +63,13 @@ export default function Report({
             <div className="text">
               {type}
               <br />
-              {total}个话题
+              <span>{total}</span> 个话题
             </div>
           </div>
         ))}
       </div>
+
+      <Button className="btn-share">分享给更多人</Button>
     </div>
   );
 }
