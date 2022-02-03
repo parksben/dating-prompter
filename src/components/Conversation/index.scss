@@ -1,0 +1,90 @@
+.conversation {
+  .question {
+    padding: 4vw 6vw;
+    margin: 8vw;
+    line-height: 2;
+    text-align: justify;
+    border: 1px solid var(--normal-border-color);
+    border-radius: 5px;
+
+    span {
+      font-size: 8vw;
+      line-height: 1;
+      color: var(--primary-color);
+      margin-right: 1vw;
+    }
+  }
+
+  .action-group {
+    margin: 0 8vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .nice-button {
+      margin: 0;
+      flex: 0 0 40vw;
+    }
+
+    .change-question {
+      background-color: transparent;
+      color: var(--primary-color);
+      box-shadow: inset 0 0 0 1px var(--primary-color);
+    }
+  }
+
+  .finish-round {
+    width: fit-content;
+    padding: 2vw;
+    margin: 12vw auto 0;
+    font-size: 3vw;
+    color: var(--secondary-text-color);
+    border: 1px solid var(--normal-border-color);
+    border-radius: 5px;
+  }
+
+  &.style-one {
+    &::before {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      left: initial;
+      bottom: initial;
+      width: 44vw;
+      height: 44vw;
+      background: url("/svg/puppy-head.svg") no-repeat right top/contain;
+    }
+
+    &.level-2::before {
+      background-image: url("/svg/puppy-head-2.svg");
+    }
+
+    &.level-3::before {
+      background-image: url("/svg/puppy-head-3.svg");
+    }
+  }
+
+  &.style-two {
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      right: initial;
+      top: initial;
+      width: 44vw;
+      height: 44vw;
+      background: url("/svg/kitty-head.svg") no-repeat left bottom/contain;
+    }
+
+    &.level-2::before {
+      background-image: url("/svg/kitty-head-2.svg");
+    }
+
+    &.level-3::before {
+      background-image: url("/svg/kitty-head-3.svg");
+    }
+  }
+}

@@ -1,15 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Welcome from './pages/Welcome';
 import PuppyForm from './pages/PuppyForm';
 import KittyForm from './pages/KittyForm';
 import RoundOne from './pages/RoundOne';
 import RoundTwo from './pages/RoundTwo';
 import RoundThree from './pages/RoundThree';
+import ProcessOne from './pages/ProcessOne';
 import Conditional from './components/Conditional';
 import Storage from './utils/Storage';
 
+// for debuging
+window.Storage = Storage;
+
 export default function App() {
   const [currentPage, setCurrentPage] = useState('welcome');
+
+  // 话题类型
+  const [types, setTypes] = useState([]);
+
+  // 更新/获取全部话题类型
+  const updateTypes = useCallback(() => {
+    Promise.all([
+      Storage.get('puppyProfile'),
+      Storage.get('kittyProfile'),
+    ]).then(([puppy, kitty]) => {
+      setTypes([
+        ...puppy.data.topicMyself,
+        ...puppy.data.topicEachOther,
+        ...kitty.data.topicMyself,
+        ...kitty.data.topicEachOther,
+      ]);
+    });
+  }, []);
 
   return (
     <div className="App">
@@ -40,6 +62,10 @@ export default function App() {
           onSubmit={(fields) => {
             // 保存数据
             Storage.set('kittyProfile', fields).then(() => {
+              // 更新话题类型
+              updateTypes();
+
+              // 跳转到第一轮话题
               setCurrentPage('round-one');
             });
           }}
@@ -49,8 +75,25 @@ export default function App() {
       {/* Round One */}
       <Conditional visible={currentPage === 'round-one'}>
         <RoundOne
+          types={types}
           onClick={() => {
-            setCurrentPage('round-two');
+            setCurrentPage('process-one');
+          }}
+        />
+      </Conditional>
+
+      {/* 第一轮话题 */}
+      <Conditional visible={currentPage === 'process-one'}>
+        <ProcessOne
+          onNext={(duration) => {
+            Storage.set('roundOneDuration', duration).then(() => {
+              // 跳转到第二轮话题起始页
+              setCurrentPage('round-two');
+            });
+          }}
+          onFinish={() => {
+            // 跳转到结果页
+            // setCurrentPage('report');
           }}
         />
       </Conditional>
@@ -71,11 +114,6 @@ export default function App() {
             console.log('开始第三轮话题');
           }}
         />
-      </Conditional>
-
-      {/* 转场动效 */}
-      <Conditional visible={currentPage === 'start'}>
-        <div>转场动效</div>
       </Conditional>
     </div>
   );

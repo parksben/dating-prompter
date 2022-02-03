@@ -1,6 +1,6 @@
 import { csv2json } from 'csvjson-csv2json';
 
-const ALL_TYPES = [
+export const ALL_TYPES = [
   '个人星球',
   '家庭星球',
   '理想国',

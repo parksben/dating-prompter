@@ -1,0 +1,27 @@
+.timer {
+  width: fit-content;
+  font-size: 8vw;
+  color: var(--placeholder-color);
+  padding: 0.5vw 1vw;
+  margin: 0 auto;
+  position: relative;
+
+  .progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-top: 2px solid var(--primary-color);
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    border-top: 2px solid var(--normal-border-color);
+  }
+}
