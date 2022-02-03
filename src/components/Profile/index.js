@@ -105,7 +105,7 @@ export default function Profile({ onSubmit = () => {} }) {
   );
 }
 
-const TOPIC_TYPES = [
+export const TOPIC_TYPES = [
   {
     icon: ICON_GRXQ,
     text: '个人星球',

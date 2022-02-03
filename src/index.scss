@@ -32,12 +32,15 @@ body {
 
 @keyframes tipFlash {
   0% {
-    opacity: 0.4;
+    opacity: 0.2;
   }
-  50% {
+  40% {
+    opacity: 1;
+  }
+  60% {
     opacity: 1;
   }
   100% {
-    opacity: 0.4;
+    opacity: 0.2;
   }
 }

@@ -7,8 +7,12 @@ import RoundCard from './components/RoundCard';
 import Conversation from './components/Conversation';
 import Firework from './components/Firework';
 import Summary from './components/Summary';
+import Report from './components/Report';
 import PageLayout from './layouts/PageLayout';
 import Storage from './utils/Storage';
+
+// 话题的总回合数
+const ROUND_TOTAL = 3;
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('welcome');
@@ -149,15 +153,29 @@ export default function App() {
       <Conditional visible={currentPage === 'summary'}>
         <PageLayout
           onClick={() => {
-            if (level === 3) return;
+            if (level === ROUND_TOTAL) {
+              setCurrentPage('report');
+              return;
+            }
 
             // 跳转到下一轮话题
             setLevel((prev) => prev + 1);
             setCurrentPage('round');
           }}>
-          <Summary level={level} tip="点击任意位置继续">
+          <Summary
+            level={level}
+            tip={
+              level < ROUND_TOTAL ? '点击任意位置继续' : '点击任意位置查看结果'
+            }>
             {summaryTip}
           </Summary>
+        </PageLayout>
+      </Conditional>
+
+      {/* 报告页面 */}
+      <Conditional visible={currentPage === 'report'}>
+        <PageLayout>
+          <Report duration={roundTick} />
         </PageLayout>
       </Conditional>
     </div>
