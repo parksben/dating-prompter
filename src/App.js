@@ -11,6 +11,7 @@ import Summary from './components/Summary';
 import Report from './components/Report';
 import PageLayout from './layouts/PageLayout';
 import Storage from './utils/Storage';
+import './App.scss';
 
 // 话题的总回合数
 const ROUND_TOTAL = 3;
@@ -191,7 +192,7 @@ export default function App() {
                 (canvas) => {
                   overlay.classList.add('display');
 
-                  const dataUrl = canvas.toDataURL('image/jpg');
+                  const dataUrl = canvas.toDataURL();
                   const img = document.createElement('img');
                   img.src = dataUrl;
                   img.onclick = () => {
@@ -218,7 +219,7 @@ export default function App() {
             </div>
           </div>
           <div className="extra">
-            扫码关注公众号 并 回复关键字：<span>相亲提词器</span>
+            关注公众号 并 回复关键字：<span>相亲</span>
           </div>
         </PageLayout>
       </div>
