@@ -40,6 +40,8 @@ export default function Report({
   nicknames = ['汪先生', '喵小姐'],
   duration = 45 * 60 * 1000,
   typeStats = DEFAULT_STATISTICS,
+  onShare = () => {},
+  noShare = false,
 }) {
   return (
     <div className="report">
@@ -69,7 +71,11 @@ export default function Report({
         ))}
       </div>
 
-      <Button className="btn-share">分享给更多人</Button>
+      {!noShare && (
+        <Button className="btn-share" onClick={onShare}>
+          分享给更多人
+        </Button>
+      )}
     </div>
   );
 }

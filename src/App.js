@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import html2canvas from 'html2canvas';
 import Welcome from './pages/Welcome';
 import PuppyForm from './pages/PuppyForm';
 import KittyForm from './pages/KittyForm';
@@ -175,9 +176,62 @@ export default function App() {
       {/* 报告页面 */}
       <Conditional visible={currentPage === 'report'}>
         <PageLayout>
-          <Report duration={roundTick} />
+          <Report
+            duration={roundTick}
+            onShare={() => {
+              const overlay = document.getElementById('overlay');
+              const imgContainer = overlay.querySelector('.image');
+
+              if (imgContainer.querySelector('img')) {
+                overlay.classList.add('display');
+                return;
+              }
+
+              html2canvas(document.getElementById('screenshot')).then(
+                (canvas) => {
+                  overlay.classList.add('display');
+
+                  const dataUrl = canvas.toDataURL('image/jpg');
+                  const img = document.createElement('img');
+                  img.src = dataUrl;
+                  img.onclick = () => {
+                    overlay.classList.remove('display');
+                  };
+
+                  imgContainer.innerHTML = '';
+                  imgContainer.appendChild(img);
+                }
+              );
+            }}
+          />
         </PageLayout>
       </Conditional>
+
+      {/* 截图所需页面 */}
+      <div className="screenshot" id="screenshot">
+        <PageLayout>
+          <Report duration={roundTick} noShare />
+          <div className="qrcode">
+            <div className="image" />
+            <div className="notes">
+              <div>快乐约会，拒绝尴尬</div>
+            </div>
+          </div>
+          <div className="extra">
+            扫码关注公众号 并 回复关键字：<span>相亲提词器</span>
+          </div>
+        </PageLayout>
+      </div>
+
+      {/* 分享图片的弹层 */}
+      <div
+        className="overlay"
+        id="overlay"
+        onClick={(e) => {
+          e.target.classList.remove('display');
+        }}>
+        <div className="image" />
+      </div>
     </div>
   );
 }
