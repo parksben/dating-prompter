@@ -92,7 +92,7 @@ export default function Conversation({
         {question && question.content && (
           <>
             <span>{question.content.substring(0, 1)}</span>
-            {question.content.substring(1)}
+            {renderParagraph(question.content.substring(1))}
           </>
         )}
       </div>
@@ -143,4 +143,14 @@ export default function Conversation({
       </div>
     </div>
   );
+}
+
+function renderParagraph(text = '') {
+  const paragraphs = text.split('\n');
+  return paragraphs.map((x, i) => (
+    <>
+      {i > 0 && <br />}
+      {x}
+    </>
+  ));
 }

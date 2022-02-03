@@ -29,3 +29,15 @@ body {
   line-height: 1.5;
   color: var(--normal-text-color, #000);
 }
+
+@keyframes tipFlash {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}

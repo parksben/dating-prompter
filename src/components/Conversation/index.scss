@@ -6,6 +6,8 @@
     text-align: justify;
     border: 1px solid var(--normal-border-color);
     border-radius: 5px;
+    max-height: 30vh;
+    overflow-y: auto;
 
     span {
       font-size: 8vw;
