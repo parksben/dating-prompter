@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  Fragment,
+} from 'react';
 import classnames from 'classnames';
 import Button from '../Button';
 import Timer from '../Timer';
@@ -148,9 +154,9 @@ export default function Conversation({
 function renderParagraph(text = '') {
   const paragraphs = text.split('\n');
   return paragraphs.map((x, i) => (
-    <>
+    <Fragment key={`para-${i}`}>
       {i > 0 && <br />}
       {x}
-    </>
+    </Fragment>
   ));
 }

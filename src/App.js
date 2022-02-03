@@ -5,6 +5,7 @@ import KittyForm from './pages/KittyForm';
 import Conditional from './components/Conditional';
 import RoundCard from './components/RoundCard';
 import Conversation from './components/Conversation';
+import Firework from './components/Firework';
 import Summary from './components/Summary';
 import PageLayout from './layouts/PageLayout';
 import Storage from './utils/Storage';
@@ -17,6 +18,9 @@ export default function App() {
 
   // 话题类型
   const [types, setTypes] = useState([]);
+
+  // 累计耗时
+  const [roundTick, setRoundTick] = useState(0);
 
   // 小结提示文案
   const [summaryTip, setSummaryTip] = useState('');
@@ -100,27 +104,44 @@ export default function App() {
                 if (level === 1) {
                   text = `哇~ 已经互动了 ${Math.ceil(
                     duration / (60 * 1000)
-                  )} 分钟，休息一下，喝口水润润嘴唇。`;
+                  )} 分钟，休息一下，喝口水润润嘴唇`;
                 }
 
                 if (level === 2) {
                   text =
-                    '你们已经交换了关于生活的许多个答案。这一刻，这个城市里，又多了一个让彼此觉得有意思的人。';
+                    '你们已经交换了关于生活的许多个答案。这一刻，这个城市里，又多了一个让彼此觉得有意思的人';
                 }
 
                 if (level === 3) {
                   text =
-                    '谢谢这三个回合的分享和聆听，很高兴在茫茫人海中遇见特别的你。';
+                    '谢谢这三个回合的分享和聆听，很高兴在茫茫人海中遇见特别的你';
                 }
+
+                // 设置累计耗时
+                setRoundTick((prev) => prev + duration);
 
                 // 设置小结文案
                 setSummaryTip(text);
 
-                // 跳转到小结页面
-                setCurrentPage('summary');
+                // 跳转到彩蛋页面
+                setCurrentPage('firework');
               });
             }}
           />
+        </PageLayout>
+      </Conditional>
+
+      {/* 彩蛋页面 */}
+      <Conditional visible={currentPage === 'firework'}>
+        <PageLayout
+          onClick={() => {
+            // 跳转小结页面
+            setCurrentPage('summary');
+          }}>
+          <Firework tip="点击任意位置继续">
+            <div>{Math.ceil(roundTick / (60 * 1000))}min</div>
+            记得鼓励下自己 (^_^)
+          </Firework>
         </PageLayout>
       </Conditional>
 
@@ -134,7 +155,9 @@ export default function App() {
             setLevel((prev) => prev + 1);
             setCurrentPage('round');
           }}>
-          <Summary tip="点击任意位置继续">{summaryTip}</Summary>
+          <Summary level={level} tip="点击任意位置继续">
+            {summaryTip}
+          </Summary>
         </PageLayout>
       </Conditional>
     </div>

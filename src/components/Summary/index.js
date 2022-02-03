@@ -1,12 +1,10 @@
 import React from 'react';
+import classnames from 'classnames';
 import './index.scss';
 
-export default function Summary({ children, tip = '' }) {
+export default function Summary({ level, children, tip = '' }) {
   return (
-    <div className="summary">
-      <div className="firework-large" />
-      <div className="firework-small" />
-      <div className="firework-medium" />
+    <div className={classnames('summary', `summary-${level}`)}>
       <div className="content">{children}</div>
       {tip && <div className="tip">- {tip} -</div>}
     </div>

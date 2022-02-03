@@ -1,39 +1,6 @@
 .summary {
-  .firework-large {
-    position: absolute;
-    top: 20vw;
-    left: 15vw;
-    width: 55vw;
-    height: 55vw;
-    background: url("/svg/firework-large.svg") no-repeat center/contain;
-    animation: zoom 3s linear infinite;
-  }
-
-  .firework-small {
-    position: absolute;
-    top: 60vw;
-    right: 10vw;
-    width: 22vw;
-    height: 22vw;
-    background: url("/svg/firework-small.svg") no-repeat center/contain;
-    animation: zoom 2s linear infinite;
-  }
-
-  .firework-medium {
-    position: absolute;
-    top: 80vw;
-    left: 40vw;
-    width: 33vw;
-    height: 33vw;
-    background: url("/svg/firework-medium.svg") no-repeat center/contain;
-    animation: zoom 1.5s linear infinite;
-  }
-
   .content {
-    position: absolute;
-    bottom: 60vw;
-    left: 12vw;
-    right: 12vw;
+    margin: 0 16vw;
     font-size: 5vw;
     line-height: 1.5;
     text-align: center;
@@ -41,27 +8,67 @@
   }
 
   .tip {
-    position: absolute;
-    bottom: 40vw;
-    left: 50%;
-    transform: translate(-50%, 0);
+    margin-top: 6vw;
     text-align: center;
     color: var(--placeholder-color);
     animation: tipFlash 2s linear infinite;
   }
-}
 
-@keyframes zoom {
-  0% {
-    transform: scale(0);
-    opacity: 0.2;
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40vw;
+    height: 60vw;
+    background: url("/svg/puppy-paw-2.svg") no-repeat left top/contain;
   }
-  20% {
-    transform: scale(1);
-    opacity: 1;
+
+  &::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 40vw;
+    height: 60vw;
+    background: url("/svg/kitty-paw-2.svg") no-repeat right bottom/contain;
   }
-  100% {
-    transform: scale(1);
-    opacity: 0;
+
+  &.summary-2 {
+    &::before {
+      right: 0;
+      top: 0;
+      bottom: initial;
+      left: initial;
+      background: url("/svg/puppy-paw-3.svg") no-repeat right top/contain;
+    }
+
+    &::after {
+      left: 0;
+      bottom: 0;
+      right: initial;
+      top: initial;
+      background: url("/svg/kitty-paw-3.svg") no-repeat left bottom/contain;
+    }
+  }
+
+  &.summary-3 {
+    &::before {
+      top: 0;
+      left: 50%;
+      bottom: initial;
+      right: initial;
+      transform: translate(-50%, 0);
+      background: url("/svg/puppy-paw-4.svg") no-repeat center top/contain;
+    }
+
+    &::after {
+      left: 50%;
+      bottom: 0;
+      right: initial;
+      top: initial;
+      transform: translate(-50%, 0);
+      background: url("/svg/kitty-paw-4.svg") no-repeat center bottom/contain;
+    }
   }
 }

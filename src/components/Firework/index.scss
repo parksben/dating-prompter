@@ -1,0 +1,74 @@
+.firework {
+  .firework-large {
+    position: absolute;
+    top: 50vw;
+    left: 15vw;
+    width: 55vw;
+    height: 55vw;
+    background: url("/svg/firework-large.svg") no-repeat center/contain;
+    animation: zoom 5s linear infinite;
+  }
+
+  .firework-small {
+    position: absolute;
+    top: 90vw;
+    right: 10vw;
+    width: 22vw;
+    height: 22vw;
+    background: url("/svg/firework-small.svg") no-repeat center/contain;
+    animation: zoom 4s linear infinite;
+  }
+
+  .firework-medium {
+    position: absolute;
+    top: 110vw;
+    left: 40vw;
+    width: 33vw;
+    height: 33vw;
+    background: url("/svg/firework-medium.svg") no-repeat center/contain;
+    animation: zoom 3s linear infinite;
+  }
+
+  .content {
+    position: absolute;
+    top: 20vw;
+    left: 16vw;
+    right: 16vw;
+    font-size: 4vw;
+    line-height: 2;
+    color: var(--placeholder-color);
+    text-align: center;
+
+    div {
+      font-size: 8vw;
+      line-height: 1;
+      color: var(--primary-color);
+      margin-bottom: 2vw;
+    }
+  }
+
+  .tip {
+    position: absolute;
+    bottom: 30vw;
+    left: 50%;
+    transform: translate(-50%, 0);
+    text-align: center;
+    color: var(--placeholder-color);
+    animation: tipFlash 2s linear infinite;
+  }
+}
+
+@keyframes zoom {
+  0% {
+    transform: scale(0);
+    opacity: 0.2;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
