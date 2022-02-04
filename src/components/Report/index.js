@@ -54,9 +54,7 @@ export default function Report({
 }
 
 // 按排版效果进行排序
-function sortTypes(list) {
-  if (!list || !list.length) return [];
-
+function sortTypes(list = []) {
   const fullTypes = TOPIC_TYPES.map(({ text }) => ({
     type: text,
     total: list.find((x) => x.type === text)?.total || 0,
