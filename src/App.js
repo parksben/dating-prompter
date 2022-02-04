@@ -31,12 +31,18 @@ export default function App() {
   // 小结提示文案
   const [summaryTip, setSummaryTip] = useState('');
 
-  // 更新/获取全部话题类型
-  const updateTypes = useCallback(() => {
+  // 双方的昵称
+  const [nicknames, setNicknames] = useState([]);
+
+  const [typeStats, setTypeStats] = useState([]);
+
+  // 更新个人信息到前端界面
+  const updateProfile = useCallback(() => {
     Promise.all([
       Storage.get('puppyProfile'),
       Storage.get('kittyProfile'),
     ]).then(([puppy, kitty]) => {
+      // 获取双方话题类型的并集
       setTypes(
         uniq([
           ...puppy.data.topicMyself,
@@ -45,6 +51,40 @@ export default function App() {
           ...kitty.data.topicEachOther,
         ])
       );
+
+      // 获取双方的昵称
+      setNicknames([puppy.data.nickname, kitty.data.nickname]);
+    });
+  }, []);
+
+  // 更新话题的类型统计给前端界面
+  const updateTypeStats = useCallback(() => {
+    const promises = [];
+    for (let i = 0; i < ROUND_TOTAL; i++) {
+      promises.push(Storage.get(`round-${i + 1}`));
+    }
+
+    Promise.all(promises).then((respList) => {
+      const statistics = {};
+
+      for (const resp of respList) {
+        const history = resp.data.history || [];
+
+        for (const { type } of history) {
+          if (statistics[type]) {
+            statistics[type] += 1;
+          } else {
+            statistics[type] = 1;
+          }
+        }
+      }
+
+      const result = Object.entries(statistics).map(([type, total]) => ({
+        type,
+        total,
+      }));
+
+      setTypeStats(result);
     });
   }, []);
 
@@ -77,8 +117,8 @@ export default function App() {
           onSubmit={(fields) => {
             // 保存数据
             Storage.set('kittyProfile', fields).then(() => {
-              // 更新话题类型
-              updateTypes();
+              // 更新个人信息到前端界面
+              updateProfile();
 
               // 跳转到第一轮话题
               setLevel(1);
@@ -156,12 +196,19 @@ export default function App() {
         <PageLayout
           onClick={() => {
             if (level === ROUND_TOTAL) {
+              // 更新话题类型统计给前端界面
+              updateTypeStats();
+
+              // 跳转到结果页面
               setCurrentPage('report');
+
               return;
             }
 
-            // 跳转到下一轮话题
+            // 切换到下一轮
             setLevel((prev) => prev + 1);
+
+            // 跳转到下一轮话题
             setCurrentPage('round');
           }}>
           <Summary
@@ -177,14 +224,24 @@ export default function App() {
       {/* 报告页面 */}
       <Conditional visible={currentPage === 'report'}>
         <PageLayout>
-          <Report duration={roundTick} onShare={handleShare} />
+          <Report
+            nicknames={nicknames}
+            typeStats={typeStats}
+            duration={roundTick}
+            onShare={handleShare}
+          />
         </PageLayout>
       </Conditional>
 
       {/* 截图所需页面 - 在视口外不可见 */}
       <div className="screenshot" id="screenshot">
         <PageLayout>
-          <Report duration={roundTick} noShare />
+          <Report
+            nicknames={nicknames}
+            typeStats={typeStats}
+            duration={roundTick}
+            noShare
+          />
           <div className="qrcode">
             <div className="image" />
             <div className="notes">

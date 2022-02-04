@@ -9,37 +9,10 @@ const ICON_MAP = TOPIC_TYPES.reduce((acc, cur) => {
   return acc;
 }, {});
 
-const DEFAULT_STATISTICS = [
-  {
-    type: '时间的爪印',
-    total: 5,
-  },
-  {
-    type: '理想国',
-    total: 4,
-  },
-  {
-    type: '家庭星球',
-    total: 1,
-  },
-  {
-    type: '恋爱星球',
-    total: 7,
-  },
-  {
-    type: '个人星球',
-    total: 3,
-  },
-  {
-    type: '灵魂碰碰',
-    total: 2,
-  },
-];
-
 export default function Report({
   nicknames = ['汪先生', '喵小姐'],
   duration = 45 * 60 * 1000,
-  typeStats = DEFAULT_STATISTICS,
+  typeStats = [],
   onShare = () => {},
   noShare = false,
 }) {
@@ -82,6 +55,14 @@ export default function Report({
 
 // 按排版效果进行排序
 function sortTypes(list) {
-  const ordered = list.sort((a, b) => b.total - a.total);
+  if (!list || !list.length) return [];
+
+  const fullTypes = TOPIC_TYPES.map(({ text }) => ({
+    type: text,
+    total: list.find((x) => x.type === text)?.total || 0,
+  }));
+
+  const ordered = fullTypes.sort((a, b) => b.total - a.total);
+
   return [3, 0, 4, 1, 5, 2].map((idx) => ordered[idx]);
 }

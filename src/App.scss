@@ -83,6 +83,7 @@
 
   .image {
     margin: 0 8vw;
+    transform: translate(0, 15%);
 
     &::after {
       content: "长按图片可分享保存";
@@ -101,11 +102,11 @@
   &.display {
     transform: translate(0, 0);
     background-color: rgba(0, 0, 0, 0.6);
-    transition: background-color 300ms ease-in-out;
+    transition: background-color 300ms ease-in;
 
     .image {
       transform: translate(0, 0);
-      transition: transform 300ms ease-in-out;
+      transition: transform 300ms ease-in;
     }
   }
 }
