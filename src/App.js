@@ -98,7 +98,7 @@ export default function App() {
         </PageLayout>
       </Conditional>
 
-      {/* 第一轮话题 */}
+      {/* 第 N 轮话题 */}
       <Conditional visible={currentPage === 'process'}>
         <PageLayout>
           <Conversation
@@ -177,38 +177,11 @@ export default function App() {
       {/* 报告页面 */}
       <Conditional visible={currentPage === 'report'}>
         <PageLayout>
-          <Report
-            duration={roundTick}
-            onShare={() => {
-              const overlay = document.getElementById('overlay');
-              const imgContainer = overlay.querySelector('.image');
-
-              if (imgContainer.querySelector('img')) {
-                overlay.classList.add('display');
-                return;
-              }
-
-              html2canvas(document.getElementById('screenshot')).then(
-                (canvas) => {
-                  overlay.classList.add('display');
-
-                  const dataUrl = canvas.toDataURL();
-                  const img = document.createElement('img');
-                  img.src = dataUrl;
-                  img.onclick = () => {
-                    overlay.classList.remove('display');
-                  };
-
-                  imgContainer.innerHTML = '';
-                  imgContainer.appendChild(img);
-                }
-              );
-            }}
-          />
+          <Report duration={roundTick} onShare={handleShare} />
         </PageLayout>
       </Conditional>
 
-      {/* 截图所需页面 */}
+      {/* 截图所需页面 - 在视口外不可见 */}
       <div className="screenshot" id="screenshot">
         <PageLayout>
           <Report duration={roundTick} noShare />
@@ -224,17 +197,51 @@ export default function App() {
         </PageLayout>
       </div>
 
-      {/* 分享图片的弹层 */}
+      {/* 分享/保存图片的弹层 */}
       <div
         className="overlay"
         id="overlay"
         onClick={(e) => {
           e.target.classList.remove('display');
         }}>
-        <div className="image" />
+        <div
+          className="image"
+          onClick={(e) => {
+            e.target.parentElement.classList.remove('display');
+          }}
+        />
       </div>
     </div>
   );
+}
+
+// 点击分享按钮的回调
+function handleShare() {
+  const overlay = document.getElementById('overlay');
+  const imgContainer = overlay.querySelector('.image');
+
+  // 截图已存在，则避免面重复截图
+  if (imgContainer.querySelector('img')) {
+    overlay.classList.add('display');
+    return;
+  }
+
+  // 截图并显示弹层
+  html2canvas(
+    document.getElementById('screenshot').querySelector('.page-inner')
+  ).then((canvas) => {
+    overlay.classList.add('display');
+
+    const dataUrl = canvas.toDataURL();
+    const img = document.createElement('img');
+    img.src = dataUrl;
+    img.onclick = () => {
+      overlay.classList.remove('display');
+    };
+
+    imgContainer.innerHTML = '';
+    imgContainer.appendChild(img);
+  });
 }
 
 function uniq(list) {

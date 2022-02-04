@@ -5,12 +5,18 @@
   top: 0;
   bottom: 0;
   transform: translate(100%, 0);
+  background-color: #fff;
+
+  .page-inner {
+    padding: 8vw 0;
+  }
 
   .qrcode {
-    margin: 14vw 10vw 0;
+    margin-top: 20vw;
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 
     .notes {
       flex: 1 1 auto;
@@ -31,13 +37,34 @@
       height: 20vw;
       background: url("/qrcode.jpg") no-repeat center/contain;
     }
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 40%;
+      transform: translate(0, -50%);
+      width: 20vw;
+      height: 20vw;
+      background: url("/svg/kitty-paw-right.svg") no-repeat left center/contain;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 40%;
+      transform: translate(0, -50%);
+      width: 20vw;
+      height: 20vw;
+      background: url("/svg/puppy-paw-left.svg") no-repeat right center/contain;
+    }
   }
 
   .extra {
     font-size: 2vw;
     text-align: center;
     color: var(--placeholder-color);
-    margin-top: 4vw;
   }
 }
 
@@ -49,10 +76,13 @@
   bottom: 0;
   transform: translate(100%, 0);
   background-color: rgba(0, 0, 0, 0);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 
   .image {
-    margin: 8vw;
-    transform: translate(0, 20vw);
+    margin: 0 8vw;
 
     &::after {
       content: "长按图片可分享保存";
