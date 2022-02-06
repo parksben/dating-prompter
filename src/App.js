@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import Welcome from './pages/Welcome';
 import PuppyForm from './pages/PuppyForm';
@@ -11,6 +11,7 @@ import Summary from './components/Summary';
 import Report from './components/Report';
 import PageLayout from './layouts/PageLayout';
 import Storage from './utils/Storage';
+import { init, event } from './utils/uweb';
 import './App.scss';
 
 // 话题的总回合数
@@ -35,6 +36,11 @@ export default function App() {
   const [nicknames, setNicknames] = useState([]);
 
   const [typeStats, setTypeStats] = useState([]);
+
+  // 初始化友盟打点
+  useEffect(() => {
+    init();
+  }, []);
 
   // 更新个人信息到前端界面
   const updateProfile = useCallback(() => {
@@ -95,6 +101,9 @@ export default function App() {
         <Welcome
           onPlay={() => {
             setCurrentPage('puppy');
+
+            // 友盟事件上报
+            event('开启约会');
           }}
         />
       </Conditional>
@@ -107,6 +116,9 @@ export default function App() {
             Storage.set('puppyProfile', fields).then(() => {
               setCurrentPage('kitty');
             });
+
+            // 友盟事件上报
+            event('提交男生信息', JSON.stringify(fields));
           }}
         />
       </Conditional>
@@ -124,6 +136,9 @@ export default function App() {
               setLevel(1);
               setCurrentPage('round');
             });
+
+            // 友盟事件上报
+            event('提交女生信息', JSON.stringify(fields));
           }}
         />
       </Conditional>
@@ -133,6 +148,9 @@ export default function App() {
         <PageLayout
           onClick={() => {
             setCurrentPage('process');
+
+            // 友盟事件上报
+            event('进入约会话题', `第${level}轮话题`);
           }}>
           <RoundCard types={types} round={level} tip="点击任意位置继续" />
         </PageLayout>
@@ -144,6 +162,14 @@ export default function App() {
           <Conversation
             level={level}
             onFinish={(duration, history) => {
+              // 友盟事件上报
+              event(
+                `第${level}轮话题结束`,
+                `时长:${duration}`,
+                '聊过的话题',
+                JSON.stringify(history)
+              );
+
               Storage.set(`round-${level}`, { duration, history }).then(() => {
                 let text = '';
 
@@ -171,6 +197,9 @@ export default function App() {
 
                 // 跳转到彩蛋页面
                 setCurrentPage('firework');
+
+                // 友盟事件上报
+                event('进入烟花彩蛋', `第${level}轮话题`);
               });
             }}
           />
@@ -183,6 +212,9 @@ export default function App() {
           onClick={() => {
             // 跳转小结页面
             setCurrentPage('summary');
+
+            // 友盟事件上报
+            event('进入小结页面', `第${level}轮话题`);
           }}>
           <Firework tip="点击任意位置继续">
             <div>{Math.ceil(roundTick / (60 * 1000))}min</div>
@@ -201,6 +233,9 @@ export default function App() {
 
               // 跳转到结果页面
               setCurrentPage('report');
+
+              // 友盟事件上报
+              event('进入结果页面');
 
               return;
             }
@@ -228,7 +263,15 @@ export default function App() {
             nicknames={nicknames}
             typeStats={typeStats}
             duration={roundTick}
-            onShare={handleShare}
+            onShare={() => {
+              handleShare();
+
+              // 友盟事件上报
+              event(
+                '生成分享截图',
+                JSON.stringify({ nicknames, typeStats, duration: roundTick })
+              );
+            }}
           />
         </PageLayout>
       </Conditional>
