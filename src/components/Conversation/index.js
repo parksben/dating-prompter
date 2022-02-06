@@ -103,12 +103,16 @@ export default function Conversation({
         )}
       </div>
 
+      <div className="attention">
+        <span>温馨提示：</span>如需选择当前话题，请点击 “开始话题” 哟 ~(^_^)~
+      </div>
+
       <div className="action-group">
         <Button
           onClick={() => {
             setIsPaused((prev) => !prev);
           }}>
-          {isPaused ? '开始计时' : '暂停计时'}
+          {isPaused ? '开始话题' : '暂停计时'}
         </Button>
 
         <Button
