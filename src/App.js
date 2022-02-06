@@ -118,7 +118,7 @@ export default function App() {
             });
 
             // 友盟事件上报
-            event('提交男生信息', JSON.stringify(fields));
+            event('提交男生信息');
           }}
         />
       </Conditional>
@@ -138,7 +138,7 @@ export default function App() {
             });
 
             // 友盟事件上报
-            event('提交女生信息', JSON.stringify(fields));
+            event('提交女生信息');
           }}
         />
       </Conditional>
@@ -163,12 +163,7 @@ export default function App() {
             level={level}
             onFinish={(duration, history) => {
               // 友盟事件上报
-              event(
-                `第${level}轮话题结束`,
-                `时长:${duration}`,
-                '聊过的话题',
-                JSON.stringify(history)
-              );
+              event('回合结束', `第${level}轮话题`, duration);
 
               Storage.set(`round-${level}`, { duration, history }).then(() => {
                 let text = '';
@@ -267,10 +262,7 @@ export default function App() {
               handleShare();
 
               // 友盟事件上报
-              event(
-                '生成分享截图',
-                JSON.stringify({ nicknames, typeStats, duration: roundTick })
-              );
+              event('生成分享截图');
             }}
           />
         </PageLayout>
