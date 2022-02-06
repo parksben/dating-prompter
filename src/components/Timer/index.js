@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import './index.scss';
 
 export default function Timer({
@@ -10,37 +10,67 @@ export default function Timer({
   const interval = useRef(null);
   const begin = useRef(performance.now());
 
-  useEffect(() => {
-    clearInterval(interval.current);
+  // 创建 interval 以更新定时器
+  const makeInterval = useCallback(
+    (isVisibilityChange = false) => {
+      clearInterval(interval.current);
 
-    if (!paused) {
-      begin.current =
-        performance.now() -
-        (Number(container.current.querySelector('.clock').dataset.tick) || 0);
-
-      interval.current = setInterval(() => {
-        const tick = performance.now() - begin.current;
-
-        if (tick > duration) {
-          clearInterval(interval.current);
-          typeof onFinish === 'function' && onFinish();
-          return;
+      if (!paused) {
+        if (!isVisibilityChange) {
+          begin.current =
+            performance.now() -
+            (Number(container.current.querySelector('.clock').dataset.tick) ||
+              0);
         }
 
-        container.current.querySelector('.progress').style.width =
-          Math.round((10000 * tick) / duration) / 100 + '%';
+        interval.current = setInterval(() => {
+          const tick = performance.now() - begin.current;
 
-        container.current.querySelector('.clock').dataset.tick = tick;
-        container.current.querySelector('.clock').innerText = formatClock(
-          Math.max(0, duration - tick)
-        );
-      }, 1000);
-    }
+          if (tick > duration) {
+            clearInterval(interval.current);
+            typeof onFinish === 'function' && onFinish();
+            return;
+          }
+
+          container.current.querySelector('.progress').style.width =
+            Math.round((10000 * tick) / duration) / 100 + '%';
+
+          container.current.querySelector('.clock').dataset.tick = tick;
+          container.current.querySelector('.clock').innerText = formatClock(
+            Math.max(0, duration - tick)
+          );
+        }, 1000);
+      }
+    },
+    [duration, onFinish, paused]
+  );
+
+  useEffect(() => {
+    makeInterval();
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        makeInterval(true);
+      }
+    };
+
+    // 解决 ios 下设备熄屏后定时器停止的问题
+    document.addEventListener(
+      'visibilitychange',
+      handleVisibilityChange,
+      false
+    );
 
     return () => {
+      document.removeEventListener(
+        'visibilitychange',
+        handleVisibilityChange,
+        false
+      );
+
       clearInterval(interval.current);
     };
-  }, [duration, onFinish, paused]);
+  }, [makeInterval]);
 
   return (
     <div
