@@ -63,7 +63,7 @@ export function pv(content_url, referer_url) {
  * @param nodeid 填写事件元素的div元素id。
  * */
 export function event(category, action, label, value, nodeid) {
-  const res = ['_trackEvent', category, action];
+  const res = ['_trackEvent', category, action || category];
 
   if (label !== undefined) {
     res.push(label);
