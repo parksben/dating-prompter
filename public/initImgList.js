@@ -1,1 +1,1 @@
-var promiseList = [];
+var imgList = [];

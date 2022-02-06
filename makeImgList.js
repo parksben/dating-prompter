@@ -9,7 +9,7 @@ const imgList = fs
   .filter((x) => /\.(png|jpg|jpeg|svg|webp|gif)$/.test(x))
   .map((x) => path.resolve('/static/media/', x));
 
-const jsFileContent = `var promiseList = ${JSON.stringify(imgList)};`;
+const jsFileContent = `var imgList = ${JSON.stringify(imgList)};`;
 
 fs.writeFileSync(
   path.resolve(BUILD_DIR, 'initImgList.js'),
