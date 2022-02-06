@@ -17,17 +17,6 @@
     }
   }
 
-  .attention {
-    font-size: max(2vw, 12px);
-    line-height: 1.5;
-    color: var(--placeholder-color);
-    margin: 4vw 8vw 8vw;
-
-    span {
-      color: var(--primary-color);
-    }
-  }
-
   .action-group {
     margin: 0 8vw;
     display: flex;
