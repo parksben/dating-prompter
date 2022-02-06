@@ -29,10 +29,21 @@
       flex: 0 0 40vw;
     }
 
-    .change-question {
-      background-color: transparent;
-      color: var(--primary-color);
-      box-shadow: inset 0 0 0 1px var(--primary-color);
+    &.multi-action {
+      .change-question {
+        background-color: transparent;
+        color: var(--primary-color);
+        box-shadow: inset 0 0 0 1px var(--primary-color);
+      }
+    }
+
+    &.single-action {
+      justify-content: center;
+
+      .nice-button {
+        flex: 1 1 auto;
+        max-width: 50vw;
+      }
     }
   }
 

@@ -103,13 +103,19 @@ export default function Conversation({
         )}
       </div>
 
-      <div className="action-group">
-        <Button
-          onClick={() => {
-            setIsPaused((prev) => !prev);
-          }}>
-          {isPaused ? '聊一聊' : '暂停计时'}
-        </Button>
+      <div
+        className={classnames(
+          'action-group',
+          isPaused ? 'multi-action' : 'single-action'
+        )}>
+        {isPaused && (
+          <Button
+            onClick={() => {
+              setIsPaused(false);
+            }}>
+            聊一聊
+          </Button>
+        )}
 
         <Button
           className="change-question"
@@ -129,7 +135,7 @@ export default function Conversation({
               (x) => x.content !== item.content
             );
           }}>
-          {errorTip || '换一个'}
+          {errorTip || (isPaused ? '换一个' : '聊完了，换个话题')}
         </Button>
       </div>
 
