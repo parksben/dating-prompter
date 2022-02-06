@@ -4,6 +4,7 @@
   color: var(--btn-text-color, #fff);
   background-color: var(--primary-color, #fa9898);
   border-radius: 5px;
+  cursor: pointer;
 
   &.large {
     font-size: var(--btn-text-size, 6vw);
